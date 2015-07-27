@@ -1,0 +1,304 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="airplanenoisereportclient" default="all">
+  
+  
+  <property file="airplanenoisereportclient.properties"/>
+  <!-- Uncomment the following property if no tests compilation is needed -->
+  <!-- 
+  <property name="skip.tests" value="true"/>
+   -->
+  
+  <!-- Compiler options -->
+  
+  <property name="compiler.debug" value="on"/>
+  <property name="compiler.generate.no.warnings" value="off"/>
+  <property name="compiler.args" value=""/>
+  <property name="compiler.max.memory" value="700m"/>
+  <patternset id="ignored.files">
+    <exclude name="**/*.hprof/**"/>
+    <exclude name="**/*.pyc/**"/>
+    <exclude name="**/*.pyo/**"/>
+    <exclude name="**/*.rbc/**"/>
+    <exclude name="**/*~/**"/>
+    <exclude name="**/.DS_Store/**"/>
+    <exclude name="**/.bundle/**"/>
+    <exclude name="**/.git/**"/>
+    <exclude name="**/.hg/**"/>
+    <exclude name="**/.svn/**"/>
+    <exclude name="**/CVS/**"/>
+    <exclude name="**/RCS/**"/>
+    <exclude name="**/SCCS/**"/>
+    <exclude name="**/__pycache__/**"/>
+    <exclude name="**/_svn/**"/>
+    <exclude name="**/rcs/**"/>
+    <exclude name="**/vssver.scc/**"/>
+    <exclude name="**/vssver2.scc/**"/>
+  </patternset>
+  <patternset id="library.patterns">
+    <include name="*.war"/>
+    <include name="*.ear"/>
+    <include name="*.apk"/>
+    <include name="*.zip"/>
+    <include name="*.swc"/>
+    <include name="*.ane"/>
+    <include name="*.egg"/>
+    <include name="*.jar"/>
+  </patternset>
+  <patternset id="compiler.resources">
+    <exclude name="**/?*.java"/>
+    <exclude name="**/?*.form"/>
+    <exclude name="**/?*.class"/>
+    <exclude name="**/?*.groovy"/>
+    <exclude name="**/?*.scala"/>
+    <exclude name="**/?*.flex"/>
+    <exclude name="**/?*.kt"/>
+    <exclude name="**/?*.clj"/>
+    <exclude name="**/?*.aj"/>
+  </patternset>
+  
+  <!-- JDK definitions -->
+  
+  <property name="jdk.bin.1.8" value="${jdk.home.1.8}/bin"/>
+  <path id="jdk.classpath.1.8">
+    <fileset dir="${jdk.home.1.8}">
+      <include name="jre/lib/jfr.jar"/>
+      <include name="jre/lib/management-agent.jar"/>
+      <include name="jre/lib/plugin.jar"/>
+      <include name="jre/lib/jfxswt.jar"/>
+      <include name="jre/lib/javaws.jar"/>
+      <include name="jre/lib/rt.jar"/>
+      <include name="jre/lib/jce.jar"/>
+      <include name="jre/lib/jsse.jar"/>
+      <include name="jre/lib/charsets.jar"/>
+      <include name="jre/lib/resources.jar"/>
+      <include name="jre/lib/deploy.jar"/>
+      <include name="jre/lib/ext/cldrdata.jar"/>
+      <include name="jre/lib/ext/sunec.jar"/>
+      <include name="jre/lib/ext/jfxrt.jar"/>
+      <include name="jre/lib/ext/nashorn.jar"/>
+      <include name="jre/lib/ext/sunjce_provider.jar"/>
+      <include name="jre/lib/ext/zipfs.jar"/>
+      <include name="jre/lib/ext/dnsns.jar"/>
+      <include name="jre/lib/ext/localedata.jar"/>
+      <include name="jre/lib/ext/sunpkcs11.jar"/>
+    </fileset>
+  </path>
+  
+  <property name="project.jdk.home" value="${jdk.home.1.8}"/>
+  <property name="project.jdk.bin" value="${jdk.bin.1.8}"/>
+  <property name="project.jdk.classpath" value="jdk.classpath.1.8"/>
+  
+  
+  <!-- Project Libraries -->
+  
+  <path id="library.maven:_org.eclipse.jetty.orbit:javax.servlet:3.0.0.v201112011016.classpath">
+    <pathelement location="${path.variable.maven_repository}/org/eclipse/jetty/orbit/javax.servlet/3.0.0.v201112011016/javax.servlet-3.0.0.v201112011016.jar"/>
+  </path>
+  
+  <path id="library.maven:_org.eclipse.jetty.websocket:websocket-api:9.0.3.v20130506.classpath">
+    <pathelement location="${path.variable.maven_repository}/org/eclipse/jetty/websocket/websocket-api/9.0.3.v20130506/websocket-api-9.0.3.v20130506.jar"/>
+  </path>
+  
+  <path id="library.maven:_org.eclipse.jetty.websocket:websocket-client:9.0.3.v20130506.classpath">
+    <pathelement location="${path.variable.maven_repository}/org/eclipse/jetty/websocket/websocket-client/9.0.3.v20130506/websocket-client-9.0.3.v20130506.jar"/>
+  </path>
+  
+  <path id="library.maven:_org.eclipse.jetty.websocket:websocket-common:9.0.3.v20130506.classpath">
+    <pathelement location="${path.variable.maven_repository}/org/eclipse/jetty/websocket/websocket-common/9.0.3.v20130506/websocket-common-9.0.3.v20130506.jar"/>
+  </path>
+  
+  <path id="library.maven:_org.eclipse.jetty.websocket:websocket-server:9.0.3.v20130506.classpath">
+    <pathelement location="${path.variable.maven_repository}/org/eclipse/jetty/websocket/websocket-server/9.0.3.v20130506/websocket-server-9.0.3.v20130506.jar"/>
+  </path>
+  
+  <path id="library.maven:_org.eclipse.jetty.websocket:websocket-servlet:9.0.3.v20130506.classpath">
+    <pathelement location="${path.variable.maven_repository}/org/eclipse/jetty/websocket/websocket-servlet/9.0.3.v20130506/websocket-servlet-9.0.3.v20130506.jar"/>
+  </path>
+  
+  <path id="library.maven:_org.eclipse.jetty:jetty-http:9.0.3.v20130506.classpath">
+    <pathelement location="${path.variable.maven_repository}/org/eclipse/jetty/jetty-http/9.0.3.v20130506/jetty-http-9.0.3.v20130506.jar"/>
+  </path>
+  
+  <path id="library.maven:_org.eclipse.jetty:jetty-io:9.0.3.v20130506.classpath">
+    <pathelement location="${path.variable.maven_repository}/org/eclipse/jetty/jetty-io/9.0.3.v20130506/jetty-io-9.0.3.v20130506.jar"/>
+  </path>
+  
+  <path id="library.maven:_org.eclipse.jetty:jetty-server:9.0.3.v20130506.classpath">
+    <pathelement location="${path.variable.maven_repository}/org/eclipse/jetty/jetty-server/9.0.3.v20130506/jetty-server-9.0.3.v20130506.jar"/>
+  </path>
+  
+  <path id="library.maven:_org.eclipse.jetty:jetty-util:9.0.3.v20130506.classpath">
+    <pathelement location="${path.variable.maven_repository}/org/eclipse/jetty/jetty-util/9.0.3.v20130506/jetty-util-9.0.3.v20130506.jar"/>
+  </path>
+  <!-- Register Custom Compiler Taskdefs -->
+  <property name="javac2.home" value="${idea.home}/lib"/>
+  <path id="javac2.classpath">
+    <pathelement location="${javac2.home}/javac2.jar"/>
+    <pathelement location="${javac2.home}/jdom.jar"/>
+    <pathelement location="${javac2.home}/asm-all.jar"/>
+    <pathelement location="${javac2.home}/jgoodies-forms.jar"/>
+  </path>
+  <target name="register.custom.compilers">
+    <taskdef name="javac2" classname="com.intellij.ant.Javac2" classpathref="javac2.classpath"/>
+    <taskdef name="instrumentIdeaExtensions" classname="com.intellij.ant.InstrumentIdeaExtensions" classpathref="javac2.classpath"/>
+  </target>
+  
+  <!-- Modules -->
+  
+  
+  <!-- Module AirplaneNoiseReportClient -->
+  
+  <dirname property="module.airplanenoisereportclient.basedir" file="${ant.file}"/>
+  
+  
+  <property name="module.jdk.home.airplanenoisereportclient" value="${project.jdk.home}"/>
+  <property name="module.jdk.bin.airplanenoisereportclient" value="${project.jdk.bin}"/>
+  <property name="module.jdk.classpath.airplanenoisereportclient" value="${project.jdk.classpath}"/>
+  
+  <property name="compiler.args.airplanenoisereportclient" value="-encoding UTF-8 -source 1.5 -target 1.5 ${compiler.args}"/>
+  
+  <property name="airplanenoisereportclient.output.dir" value="${module.airplanenoisereportclient.basedir}/target/classes"/>
+  <property name="airplanenoisereportclient.testoutput.dir" value="${module.airplanenoisereportclient.basedir}/target/test-classes"/>
+  
+  <path id="airplanenoisereportclient.module.bootclasspath">
+    <!-- Paths to be included in compilation bootclasspath -->
+  </path>
+  
+  <path id="airplanenoisereportclient.module.production.classpath">
+    <path refid="${module.jdk.classpath.airplanenoisereportclient}"/>
+    <path refid="library.maven:_org.eclipse.jetty:jetty-server:9.0.3.v20130506.classpath"/>
+    <path refid="library.maven:_org.eclipse.jetty.orbit:javax.servlet:3.0.0.v201112011016.classpath"/>
+    <path refid="library.maven:_org.eclipse.jetty:jetty-http:9.0.3.v20130506.classpath"/>
+    <path refid="library.maven:_org.eclipse.jetty:jetty-io:9.0.3.v20130506.classpath"/>
+    <path refid="library.maven:_org.eclipse.jetty.websocket:websocket-server:9.0.3.v20130506.classpath"/>
+    <path refid="library.maven:_org.eclipse.jetty.websocket:websocket-common:9.0.3.v20130506.classpath"/>
+    <path refid="library.maven:_org.eclipse.jetty.websocket:websocket-api:9.0.3.v20130506.classpath"/>
+    <path refid="library.maven:_org.eclipse.jetty.websocket:websocket-servlet:9.0.3.v20130506.classpath"/>
+    <path refid="library.maven:_org.eclipse.jetty.websocket:websocket-client:9.0.3.v20130506.classpath"/>
+    <path refid="library.maven:_org.eclipse.jetty:jetty-util:9.0.3.v20130506.classpath"/>
+  </path>
+  
+  <path id="airplanenoisereportclient.runtime.production.module.classpath">
+    <pathelement location="${airplanenoisereportclient.output.dir}"/>
+    <path refid="library.maven:_org.eclipse.jetty:jetty-server:9.0.3.v20130506.classpath"/>
+    <path refid="library.maven:_org.eclipse.jetty.orbit:javax.servlet:3.0.0.v201112011016.classpath"/>
+    <path refid="library.maven:_org.eclipse.jetty:jetty-http:9.0.3.v20130506.classpath"/>
+    <path refid="library.maven:_org.eclipse.jetty:jetty-io:9.0.3.v20130506.classpath"/>
+    <path refid="library.maven:_org.eclipse.jetty.websocket:websocket-server:9.0.3.v20130506.classpath"/>
+    <path refid="library.maven:_org.eclipse.jetty.websocket:websocket-common:9.0.3.v20130506.classpath"/>
+    <path refid="library.maven:_org.eclipse.jetty.websocket:websocket-api:9.0.3.v20130506.classpath"/>
+    <path refid="library.maven:_org.eclipse.jetty.websocket:websocket-servlet:9.0.3.v20130506.classpath"/>
+    <path refid="library.maven:_org.eclipse.jetty.websocket:websocket-client:9.0.3.v20130506.classpath"/>
+    <path refid="library.maven:_org.eclipse.jetty:jetty-util:9.0.3.v20130506.classpath"/>
+  </path>
+  
+  <path id="airplanenoisereportclient.module.classpath">
+    <path refid="${module.jdk.classpath.airplanenoisereportclient}"/>
+    <pathelement location="${airplanenoisereportclient.output.dir}"/>
+    <path refid="library.maven:_org.eclipse.jetty:jetty-server:9.0.3.v20130506.classpath"/>
+    <path refid="library.maven:_org.eclipse.jetty.orbit:javax.servlet:3.0.0.v201112011016.classpath"/>
+    <path refid="library.maven:_org.eclipse.jetty:jetty-http:9.0.3.v20130506.classpath"/>
+    <path refid="library.maven:_org.eclipse.jetty:jetty-io:9.0.3.v20130506.classpath"/>
+    <path refid="library.maven:_org.eclipse.jetty.websocket:websocket-server:9.0.3.v20130506.classpath"/>
+    <path refid="library.maven:_org.eclipse.jetty.websocket:websocket-common:9.0.3.v20130506.classpath"/>
+    <path refid="library.maven:_org.eclipse.jetty.websocket:websocket-api:9.0.3.v20130506.classpath"/>
+    <path refid="library.maven:_org.eclipse.jetty.websocket:websocket-servlet:9.0.3.v20130506.classpath"/>
+    <path refid="library.maven:_org.eclipse.jetty.websocket:websocket-client:9.0.3.v20130506.classpath"/>
+    <path refid="library.maven:_org.eclipse.jetty:jetty-util:9.0.3.v20130506.classpath"/>
+  </path>
+  
+  <path id="airplanenoisereportclient.runtime.module.classpath">
+    <pathelement location="${airplanenoisereportclient.testoutput.dir}"/>
+    <pathelement location="${airplanenoisereportclient.output.dir}"/>
+    <path refid="library.maven:_org.eclipse.jetty:jetty-server:9.0.3.v20130506.classpath"/>
+    <path refid="library.maven:_org.eclipse.jetty.orbit:javax.servlet:3.0.0.v201112011016.classpath"/>
+    <path refid="library.maven:_org.eclipse.jetty:jetty-http:9.0.3.v20130506.classpath"/>
+    <path refid="library.maven:_org.eclipse.jetty:jetty-io:9.0.3.v20130506.classpath"/>
+    <path refid="library.maven:_org.eclipse.jetty.websocket:websocket-server:9.0.3.v20130506.classpath"/>
+    <path refid="library.maven:_org.eclipse.jetty.websocket:websocket-common:9.0.3.v20130506.classpath"/>
+    <path refid="library.maven:_org.eclipse.jetty.websocket:websocket-api:9.0.3.v20130506.classpath"/>
+    <path refid="library.maven:_org.eclipse.jetty.websocket:websocket-servlet:9.0.3.v20130506.classpath"/>
+    <path refid="library.maven:_org.eclipse.jetty.websocket:websocket-client:9.0.3.v20130506.classpath"/>
+    <path refid="library.maven:_org.eclipse.jetty:jetty-util:9.0.3.v20130506.classpath"/>
+  </path>
+  
+  
+  <patternset id="excluded.from.module.airplanenoisereportclient">
+    <patternset refid="ignored.files"/>
+  </patternset>
+  
+  <patternset id="excluded.from.compilation.airplanenoisereportclient">
+    <patternset refid="excluded.from.module.airplanenoisereportclient"/>
+  </patternset>
+  
+  <path id="airplanenoisereportclient.module.sourcepath">
+    <dirset dir="${module.airplanenoisereportclient.basedir}">
+      <include name="src/main/java"/>
+      <include name="src/main/resources"/>
+    </dirset>
+  </path>
+  
+  <path id="airplanenoisereportclient.module.test.sourcepath">
+    <dirset dir="${module.airplanenoisereportclient.basedir}">
+      <include name="src/test/java"/>
+    </dirset>
+  </path>
+  
+  
+  <target name="compile.module.airplanenoisereportclient" depends="compile.module.airplanenoisereportclient.production,compile.module.airplanenoisereportclient.tests" description="Compile module AirplaneNoiseReportClient"/>
+  
+  <target name="compile.module.airplanenoisereportclient.production" depends="register.custom.compilers" description="Compile module AirplaneNoiseReportClient; production classes">
+    <mkdir dir="${airplanenoisereportclient.output.dir}"/>
+    <javac2 destdir="${airplanenoisereportclient.output.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true" executable="${module.jdk.bin.airplanenoisereportclient}/javac">
+      <compilerarg line="${compiler.args.airplanenoisereportclient}"/>
+      <bootclasspath refid="airplanenoisereportclient.module.bootclasspath"/>
+      <classpath refid="airplanenoisereportclient.module.production.classpath"/>
+      <src refid="airplanenoisereportclient.module.sourcepath"/>
+      <patternset refid="excluded.from.compilation.airplanenoisereportclient"/>
+    </javac2>
+    
+    <copy todir="${airplanenoisereportclient.output.dir}">
+      <fileset dir="${module.airplanenoisereportclient.basedir}/src/main/java">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+      <fileset dir="${module.airplanenoisereportclient.basedir}/src/main/resources">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+    </copy>
+  </target>
+  
+  <target name="compile.module.airplanenoisereportclient.tests" depends="register.custom.compilers,compile.module.airplanenoisereportclient.production" description="compile module AirplaneNoiseReportClient; test classes" unless="skip.tests">
+    <mkdir dir="${airplanenoisereportclient.testoutput.dir}"/>
+    <javac2 destdir="${airplanenoisereportclient.testoutput.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true" executable="${module.jdk.bin.airplanenoisereportclient}/javac">
+      <compilerarg line="${compiler.args.airplanenoisereportclient}"/>
+      <bootclasspath refid="airplanenoisereportclient.module.bootclasspath"/>
+      <classpath refid="airplanenoisereportclient.module.classpath"/>
+      <src refid="airplanenoisereportclient.module.test.sourcepath"/>
+      <patternset refid="excluded.from.compilation.airplanenoisereportclient"/>
+    </javac2>
+    
+    <copy todir="${airplanenoisereportclient.testoutput.dir}">
+      <fileset dir="${module.airplanenoisereportclient.basedir}/src/test/java">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+    </copy>
+  </target>
+  
+  <target name="clean.module.airplanenoisereportclient" description="cleanup module">
+    <delete dir="${airplanenoisereportclient.output.dir}"/>
+    <delete dir="${airplanenoisereportclient.testoutput.dir}"/>
+  </target>
+  
+  <target name="init" description="Build initialization">
+    <!-- Perform any build initialization in this target -->
+  </target>
+  
+  <target name="clean" depends="clean.module.airplanenoisereportclient" description="cleanup all"/>
+  
+  <target name="build.modules" depends="init, clean, compile.module.airplanenoisereportclient" description="build all modules"/>
+  
+  <target name="all" depends="build.modules" description="build all"/>
+</project>
