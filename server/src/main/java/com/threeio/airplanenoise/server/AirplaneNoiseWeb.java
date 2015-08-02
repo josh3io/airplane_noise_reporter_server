@@ -41,6 +41,8 @@ public class AirplaneNoiseWeb extends HttpServlet {
             doSignup(request, writer);
         } else if (request.getRequestURI().equals("/apn")) {
             doApn(request,writer);
+        } else if (request.getRequestURI().equals("/log")) {
+            doLog(request,writer);
         }
 
     }
@@ -61,10 +63,13 @@ public class AirplaneNoiseWeb extends HttpServlet {
         User u = new User();
         u.setUsername(request.getParameter("username"));
 
-        writeJson(writer,new UserResponse(u));
+        writeJson(writer, new UserResponse(u));
     }
     private void doApn(HttpServletRequest request, ResponseWriter writer) {
-        System.out.println("APN "+request.getParameter("device"));
+        System.out.println("APN " + request.getParameter("device"));
+    }
+    private void doLog(HttpServletRequest request, ResponseWriter writer) {
+        System.out.println("log email "+request.getParameter("email"));
     }
 
     @Override
@@ -74,14 +79,22 @@ public class AirplaneNoiseWeb extends HttpServlet {
     {
 
 
-        System.err.println("GET uri "+request.getRequestURI());
-System.err.println("username "+request.getParameter("username"));
+        System.out.println("GET uri "+request.getRequestURI());
+System.out.println("username "+request.getParameter("username"));
         response.setStatus(HttpServletResponse.SC_OK);
 
         ResponseWriter writer = new ResponseWriter(response.getWriter());
 
-        ArrayList<Airplane> list = (ArrayList<Airplane>) manager.getAirplanes();
-
+        ArrayList<Airplane> initialList = (ArrayList<Airplane>) manager.getAirplanes();
+        ArrayList<Airplane> list = new ArrayList<Airplane>();
+        Iterator<Airplane> iterator = initialList.iterator();
+        while (iterator.hasNext()) {
+            Airplane p = iterator.next();
+            System.out.println("airplane "+p.getHexIdent());
+            if (p.getLat() != 0 && p.getLon() != 0) {
+                list.add(p);
+            }
+        }
         if (request.getParameter("html") != null && request.getParameter("html").equals("1")) {
             response.setContentType("text/html");
             writer.write("<h1>Hello from HelloServlet</h1>");

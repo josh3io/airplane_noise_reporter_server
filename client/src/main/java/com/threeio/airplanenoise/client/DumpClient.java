@@ -34,7 +34,8 @@ public class DumpClient {
 
             String line = null;
             while ((line = in.readLine()) != null) {
-                if (line.startsWith("MSG,8") || line.startsWith("MSG,7") || line.startsWith("MSG,6")) {
+                if (line.startsWith("MSG,7") || line.startsWith("MSG,6")) {
+                    System.out.println("SKIP "+line);
                     continue;
                 }
                 List<String> messageList = Arrays.asList(line.split(","));

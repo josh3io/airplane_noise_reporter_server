@@ -24,7 +24,7 @@ public class Client {
     public static void main(String[] args) throws  URISyntaxException, InterruptedException {
         while (true) {
             try {
-                new Client().run(new URI("wss://192.168.1.125:8442/ws"));
+                new Client().run(new URI("wss://localhost:8442/ws"));
             } catch (IOException e) {
 
             }

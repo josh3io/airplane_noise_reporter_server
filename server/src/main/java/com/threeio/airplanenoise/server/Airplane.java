@@ -17,11 +17,11 @@ public class Airplane implements Comparable<Airplane> {
         this.hexIdent = hexIdent;
     }
 
-    public Integer getAltitude() {
+    public Long getAltitude() {
         return altitude;
     }
 
-    public void setAltitude(Integer altitude) {
+    public void setAltitude(Long altitude) {
         this.altitude = altitude;
     }
 
@@ -60,14 +60,20 @@ public class Airplane implements Comparable<Airplane> {
         lastUpdate = LocalDateTime.parse(timeStr,formatter);
         lastUpdateTimestamp = lastUpdate.toEpochSecond(ZoneOffset.UTC);
     }
+    public void setLastUpdateTimestamp(Long timestamp) {
+        lastUpdateTimestamp = timestamp;
+        lastUpdate = LocalDateTime.ofEpochSecond(timestamp,0,ZoneOffset.UTC);
+    }
 
     private String hexIdent = "";
     private LocalDateTime lastUpdate = null;
     private Long lastUpdateTimestamp = new Long(0);
-    private Integer altitude = 0;
+    private Long altitude = new Long(0);
     private Integer groundSpeed = 0;
     private Double lat = 0.0;
     private Double lon = 0.0;
+    private String flight = "";
+    private Integer track = 0;
 
     private static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss.SSS");
 
@@ -84,5 +90,21 @@ public class Airplane implements Comparable<Airplane> {
         } else {
             return 0;
         }
+    }
+
+    public String getFlight() {
+        return flight;
+    }
+
+    public void setFlight(String flight) {
+        this.flight = flight;
+    }
+
+    public Integer getTrack() {
+        return track;
+    }
+
+    public void setTrack(Integer track) {
+        this.track = track;
     }
 }

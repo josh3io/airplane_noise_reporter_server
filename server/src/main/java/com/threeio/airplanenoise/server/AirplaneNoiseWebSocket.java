@@ -35,7 +35,7 @@ public class AirplaneNoiseWebSocket {
 
     @OnWebSocketMessage
     public void onMessage(String message) {
-        //System.out.println("Message from Client: " + message);
+        System.out.println("Message from Client: " + message);
 
         String hexIdent = manager.updatePlaneWithMessage(message);
 
