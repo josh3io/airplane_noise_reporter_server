@@ -112,12 +112,12 @@ public class AirplaneNoiseWeb extends HttpServlet {
         catch (ClassNotFoundException cnfe)
         {
 
-            //System.out.println("ClassNotFoundException " +
+            System.out.println("ClassNotFoundException " +
                     cnfe.getMessage());
         }
         catch (Exception e)
         {
-            //System.out.println("Exception " + e.getMessage());
+            System.out.println("Exception " + e.getMessage());
             e.printStackTrace();
         }
         finally

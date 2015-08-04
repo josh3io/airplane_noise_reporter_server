@@ -24,7 +24,7 @@ public class AirplaneManager {
 
     public List<Airplane> getAirplanes() {
         List<Airplane> planeList = new ArrayList<Airplane>();
-        System.out.println("airplanes "+airplanes.values().toArray().length);
+        //System.out.println("airplanes "+airplanes.values().toArray().length);
         synchronized (airplanes) {
             planeList.addAll(airplanes.values());
         }
@@ -72,10 +72,10 @@ public class AirplaneManager {
 
         String hexId = thePlane.getHexIdent();
         synchronized (airplanes) {
-            System.out.println("put "+hexId);
+            //System.out.println("put "+hexId);
             airplanes.put(hexId, thePlane);
             airplaneCount++;
-            System.out.println("count "+airplaneCount);
+            //System.out.println("count "+airplaneCount);
         }
         return;
     }
@@ -138,7 +138,7 @@ public class AirplaneManager {
                     thePlane.setAltitude(Long.parseLong(messageList.get(11)));
                     break;
                 case 6:
-                    System.out.println("case 6 convert " + messageList.get(11));
+                    //System.out.println("case 6 convert " + messageList.get(11));
                     thePlane.setAltitude(Long.parseLong(messageList.get(11)));
                     break;
             }
