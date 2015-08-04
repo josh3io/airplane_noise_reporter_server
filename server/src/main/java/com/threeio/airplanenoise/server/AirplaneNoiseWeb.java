@@ -13,11 +13,15 @@ import java.io.PrintWriter;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.sql.*;
+import com.microsoft.sqlserver.jdbc.*;
 
 /**
  * Created by jgoldberg on 7/25/15.
  */
 public class AirplaneNoiseWeb extends HttpServlet {
+
+    private static String jdbcConnectionString = "jdbc:sqlserver://airplanenoise.database.windows.net:1433;database=airplanenoise;user=jgoldberg@airplanenoise;password=ivirFlept!6fF^l@WZd;encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;loginTimeout=30;";
 
     private static AirplaneManager manager;
 
@@ -29,7 +33,7 @@ public class AirplaneNoiseWeb extends HttpServlet {
     protected void doPost(HttpServletRequest request,
                           HttpServletResponse response) throws ServletException, IOException
     {
-        System.err.println("POST uri "+request.getRequestURI());
+        //System.err.println("POST uri "+request.getRequestURI());
 
         response.setStatus(HttpServletResponse.SC_OK);
         ResponseWriter writer = new ResponseWriter(response.getWriter());
@@ -52,24 +56,83 @@ public class AirplaneNoiseWeb extends HttpServlet {
         public UserResponse(User u) { user = u; }
     }
     private void doLogin(HttpServletRequest request, ResponseWriter writer) {
-        System.out.println("login "+request.getParameter("username")+","+request.getParameter("password"));
+        //System.out.println("login "+request.getParameter("username")+","+request.getParameter("password"));
         User u = new User();
         u.setUsername(request.getParameter("username"));
 
         writeJson(writer,new UserResponse(u));
     }
     private void doSignup(HttpServletRequest request, ResponseWriter writer) {
-        System.out.println("signup "+request.getParameter("username")+","+request.getParameter("password"));
+        //System.out.println("signup "+request.getParameter("username")+","+request.getParameter("password"));
         User u = new User();
         u.setUsername(request.getParameter("username"));
 
         writeJson(writer, new UserResponse(u));
     }
     private void doApn(HttpServletRequest request, ResponseWriter writer) {
-        System.out.println("APN " + request.getParameter("device"));
+        //System.out.println("APN " + request.getParameter("device"));
     }
     private void doLog(HttpServletRequest request, ResponseWriter writer) {
-        System.out.println("log email "+request.getParameter("email"));
+        //System.out.println("log email "+request.getParameter("hexIdent"));
+        Connection connection = null;
+        PreparedStatement statement = null;
+
+
+        try
+        {
+            // Ensure the SQL Server driver class is available.
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+
+            // Establish the connection.
+            connection = DriverManager.getConnection(jdbcConnectionString);
+
+            // Define the SQL string.
+            String sqlString = "INSERT INTO report_log (hexid,altitude,groundspeed,heading,lat,lon,report_dt) " +
+                    "VALUES (?,?,?,?,?,?,CURRENT_TIMESTAMP)";
+
+            // Use the connection to create the SQL statement.
+
+            statement = connection.prepareStatement(sqlString);
+
+            statement.setString(1,request.getParameter("hexIdent"));
+            statement.setInt(2, Integer.parseInt(request.getParameter("altitude")));
+            statement.setInt(3, Integer.parseInt(request.getParameter("groundspeed")));
+            statement.setInt(4, Integer.parseInt(request.getParameter("heading")));
+            statement.setDouble(5, Double.parseDouble(request.getParameter("lat")));
+            statement.setDouble(6,Double.parseDouble(request.getParameter("lon")));
+
+            // Execute the statement.
+            statement.executeUpdate();
+
+            // Provide a message when processing is complete.
+            //System.out.println("Processing complete.");
+
+        }
+        // Exception handling
+        catch (ClassNotFoundException cnfe)
+        {
+
+            //System.out.println("ClassNotFoundException " +
+                    cnfe.getMessage());
+        }
+        catch (Exception e)
+        {
+            //System.out.println("Exception " + e.getMessage());
+            e.printStackTrace();
+        }
+        finally
+        {
+            try
+            {
+                // Close resources.
+                if (null != connection) connection.close();
+                if (null != statement) statement.close();
+            }
+            catch (SQLException sqlException)
+            {
+                // No additional action if close() statements fail.
+            }
+        }
     }
 
     @Override
@@ -78,19 +141,22 @@ public class AirplaneNoiseWeb extends HttpServlet {
             IOException
     {
 
-
-        System.out.println("GET uri "+request.getRequestURI());
+        //System.out.println("GET uri "+request.getRequestURI());
 System.out.println("username "+request.getParameter("username"));
         response.setStatus(HttpServletResponse.SC_OK);
-
         ResponseWriter writer = new ResponseWriter(response.getWriter());
+
+        if (request.getRequestURI().equals("/log")) {
+            doLog(request,writer);
+            return;
+        }
 
         ArrayList<Airplane> initialList = (ArrayList<Airplane>) manager.getAirplanes();
         ArrayList<Airplane> list = new ArrayList<Airplane>();
         Iterator<Airplane> iterator = initialList.iterator();
         while (iterator.hasNext()) {
             Airplane p = iterator.next();
-            System.out.println("airplane "+p.getHexIdent());
+            //System.out.println("airplane "+p.getHexIdent());
             if (p.getLat() != 0 && p.getLon() != 0) {
                 list.add(p);
             }
