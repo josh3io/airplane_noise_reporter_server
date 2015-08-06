@@ -36,5 +36,6 @@
     <orderEntry type="library" name="Maven: org.eclipse.jetty:jetty-servlet:9.0.3.v20130506" level="project" />
     <orderEntry type="library" name="Maven: org.eclipse.jetty:jetty-security:9.0.3.v20130506" level="project" />
     <orderEntry type="library" name="Maven: com.google.code.gson:gson:2.2.2" level="project" />
+    <orderEntry type="library" name="sqljdbc" level="project" />
   </component>
 </module>

@@ -142,8 +142,7 @@ public class AirplaneNoiseWeb extends HttpServlet {
     {
 
         //System.out.println("GET uri "+request.getRequestURI());
-System.out.println("username "+request.getParameter("username"));
-        response.setStatus(HttpServletResponse.SC_OK);
+        //response.setStatus(HttpServletResponse.SC_OK);
         ResponseWriter writer = new ResponseWriter(response.getWriter());
 
         if (request.getRequestURI().equals("/log")) {
@@ -161,26 +160,16 @@ System.out.println("username "+request.getParameter("username"));
                 list.add(p);
             }
         }
-        if (request.getParameter("html") != null && request.getParameter("html").equals("1")) {
-            response.setContentType("text/html");
-            writer.write("<h1>Hello from HelloServlet</h1>");
 
-            writer.write("<table>");
-            Iterator<Airplane> i = list.iterator();
-            while (i.hasNext()) {
-                Airplane thePlane = i.next();
-                writer.writeRowStart();
-                writer.writeCell(thePlane.getHexIdent());
-                writer.writeCell(String.valueOf(thePlane.getAltitude()));
-                writer.writeCell(String.valueOf(thePlane.getLat()));
-                writer.writeCell(String.valueOf(thePlane.getLon()));
-                writer.writeCell(thePlane.getLastUpdate().toString());
-                writer.writeRowEnd();
-            }
-            writer.write("</table>");
-        } else {
+        if (request.getParameter("planefeed") != null && request.getParameter("planefeed").equals("1")) {
             // default json
             writeJson(writer, new PlaneListOutput(list));
+        } else {
+            response.setContentType("text/html");
+            writer.write("<h1>Hello!</h1>");
+            writer.write("<p>If you want support, email <a href='mailto:josh+airplanenoisereport@3io.com'>The Author</a>.</p>");
+            writer.write("<h2>Privacy policy:</h2><p>We don't keep any personal information, that is all on your phone.");
+            writer.write("<br>When you send a noise complaint, we log only information about the aircraft and the time at which it was reported.");
         }
     }
 
