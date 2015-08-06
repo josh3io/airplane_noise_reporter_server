@@ -39,13 +39,22 @@ public class AirplaneNoiseServer {
                 } catch (Exception e){ }
             }
         };
+        Thread webHtmlThread = new Thread() {
+            public void run() {
+                try {
+                    startHtmlWebServer(m);
+                } catch (InterruptedException e) {
+                    System.err.println("web html server thread interrupted: " + e.toString());
+                } catch (Exception e){ }
+            }
+        };
         Thread webSocketThread = new Thread() {
             public void run() {
                 try {
                     startWebSocketServer(m);
                 } catch (InterruptedException e) {
                     System.err.println("web server thread interrupted: "+e.toString());
-                } catch (Exception e) { }
+                } catch (Exception e) { e.printStackTrace();}
             }
         };
         Thread webScraperThread = new Thread() {
@@ -106,10 +115,14 @@ public class AirplaneNoiseServer {
             }
         };
         webThread.start();
+        webHtmlThread.start();
         //webSocketThread.start();
         webScraperThread.start();
 
+
+
         webThread.join();
+        webHtmlThread.join();
         //webSocketThread.join();
         webScraperThread.join();
     }
@@ -122,6 +135,20 @@ public class AirplaneNoiseServer {
         webServer.initData(m);
         webServer.setHost(HOST);
         webServer.setPort(SSL_PORT);
+        webServer.setKeyStoreResource(new FileResource(AirplaneNoiseWebSocketServer.class.getResource(KEYSTORE_PATH)));
+        webServer.setKeyStorePassword(STORE_PASSWORD);
+        webServer.setKeyManagerPassword(KEY_MANAGER_PASSWORD);
+        webServer.initialize();
+        webServer.start();
+    }
+    private static void startHtmlWebServer(AirplaneManager m) throws Exception {
+        AirplaneNoiseWebHtmlServer webServer = new AirplaneNoiseWebHtmlServer();
+
+        AirplaneNoiseWebHtml.setAirplaneManager(m);
+
+        webServer.initData(m);
+        webServer.setHost(HOST);
+        webServer.setPort(80);
         webServer.setKeyStoreResource(new FileResource(AirplaneNoiseWebSocketServer.class.getResource(KEYSTORE_PATH)));
         webServer.setKeyStorePassword(STORE_PASSWORD);
         webServer.setKeyManagerPassword(KEY_MANAGER_PASSWORD);

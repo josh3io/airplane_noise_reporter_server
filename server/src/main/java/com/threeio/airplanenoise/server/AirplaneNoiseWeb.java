@@ -166,10 +166,7 @@ public class AirplaneNoiseWeb extends HttpServlet {
             writeJson(writer, new PlaneListOutput(list));
         } else {
             response.setContentType("text/html");
-            writer.write("<h1>Hello!</h1>");
-            writer.write("<p>If you want support, email <a href='mailto:josh+airplanenoisereport@3io.com'>The Author</a>.</p>");
-            writer.write("<h2>Privacy policy:</h2><p>We don't keep any personal information, that is all on your phone.");
-            writer.write("<br>When you send a noise complaint, we log only information about the aircraft and the time at which it was reported.");
+            writer.write("OK 200");
         }
     }
 
