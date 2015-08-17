@@ -6,6 +6,7 @@ import org.eclipse.jetty.server.handler.ContextHandlerCollection;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.util.resource.Resource;
 import org.eclipse.jetty.util.ssl.SslContextFactory;
+import org.eclipse.jetty.webapp.WebAppContext;
 
 import javax.servlet.DispatcherType;
 import java.util.EnumSet;
@@ -55,13 +56,14 @@ public class AirplaneNoiseWebServer {
         scHandler.addServlet(AirplaneNoiseWeb.class, "/");
         scHandler.setContextPath("/");
 
-        ServletContextHandler scHandler2 = new ServletContextHandler();
-        scHandler2.addServlet(AirplaneNoiseWeb.class, "/login");
-        scHandler2.setContextPath("/login");
-        scHandler2.setAllowNullPathInfo(true);
+
+        ServletContextHandler loginContextHandler = new ServletContextHandler();
+        loginContextHandler.addServlet(AirplaneNoiseWeb.class, "/login");
+        loginContextHandler.setContextPath("/login");
+        loginContextHandler.setAllowNullPathInfo(true);
 
         ContextHandlerCollection contexts = new ContextHandlerCollection();
-        contexts.setHandlers(new Handler[]{scHandler,scHandler2});
+        contexts.setHandlers(new Handler[]{scHandler,loginContextHandler});
         server.setHandler(contexts);
 
     }

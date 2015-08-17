@@ -13,6 +13,8 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Properties;
+import java.util.Set;
 
 /**
  * Created by jgoldberg on 7/25/15.
@@ -145,13 +147,18 @@ public class AirplaneNoiseServer {
         AirplaneNoiseWebHtmlServer webServer = new AirplaneNoiseWebHtmlServer();
 
         AirplaneNoiseWebHtml.setAirplaneManager(m);
+        int port = 80;
+        if (System.getenv("DEV") != null) {
+            port = 8008;
+        }
 
         webServer.initData(m);
         webServer.setHost(HOST);
-        webServer.setPort(80);
+        webServer.setPort(port);
         webServer.setKeyStoreResource(new FileResource(AirplaneNoiseWebSocketServer.class.getResource(KEYSTORE_PATH)));
         webServer.setKeyStorePassword(STORE_PASSWORD);
         webServer.setKeyManagerPassword(KEY_MANAGER_PASSWORD);
+
         webServer.initialize();
         webServer.start();
     }

@@ -5,6 +5,7 @@ import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.handler.ContextHandlerCollection;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.util.resource.Resource;
+import org.eclipse.jetty.webapp.WebAppContext;
 
 
 /**
@@ -47,13 +48,16 @@ public class AirplaneNoiseWebHtmlServer {
 
         // handler configuration
 
-        ServletContextHandler scHandler = new ServletContextHandler();
-        scHandler.addServlet(AirplaneNoiseWebHtml.class, "/");
-        scHandler.setContextPath("/");
+        WebAppContext webAppContext = new WebAppContext();
+        webAppContext.setContextPath("/");
+        webAppContext.setResourceBase("./webapp/");
+        webAppContext.setWar("com.threeio.airplanenoise.server.war");
+        // ??? THIS DOES NOT STOP DIR LISTING OF ./webapps/jsp/ ???
+        webAppContext.setInitParameter("dirAllowed", "false");
 
 
         ContextHandlerCollection contexts = new ContextHandlerCollection();
-        contexts.setHandlers(new Handler[]{scHandler});
+        contexts.setHandlers(new Handler[]{webAppContext});
         server.setHandler(contexts);
 
     }
