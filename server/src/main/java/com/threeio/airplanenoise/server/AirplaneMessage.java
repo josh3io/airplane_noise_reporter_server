@@ -19,6 +19,7 @@ public class AirplaneMessage {
     private Long seen;
     private Boolean mlat;
 
+
     public String getHex() {
         return hex;
     }

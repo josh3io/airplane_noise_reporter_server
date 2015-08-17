@@ -75,6 +75,17 @@ public class Airplane implements Comparable<Airplane> {
     private String flight = "";
     private Integer track = 0;
 
+    public Long getSeen() {
+        return seen;
+    }
+
+    public void setSeen(Long seen) {
+        this.seen = seen;
+    }
+
+    private Long seen = Long.valueOf(999999999);
+
+
     private static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss.SSS");
 
 

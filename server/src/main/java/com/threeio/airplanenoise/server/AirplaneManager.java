@@ -101,8 +101,14 @@ public class AirplaneManager {
         if (mo.getTrack() != null) {
             thePlane.setTrack(mo.getTrack());
         }
-        Long timestamp = (System.currentTimeMillis() / 1000L);
-        thePlane.setLastUpdateTimestamp(timestamp);
+        if (mo.getSeen() != null) {
+            thePlane.setSeen(mo.getSeen());
+
+            if (mo.getSeen() < 5) {
+                Long timestamp = (System.currentTimeMillis() / 1000L);
+                thePlane.setLastUpdateTimestamp(timestamp);
+            }
+        }
 
         return thePlane;
     }

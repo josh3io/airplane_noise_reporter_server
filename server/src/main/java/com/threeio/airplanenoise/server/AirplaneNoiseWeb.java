@@ -11,9 +11,9 @@ import javax.xml.ws.Response;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.lang.reflect.Modifier;
-import java.util.ArrayList;
-import java.util.Iterator;
+import java.util.*;
 import java.sql.*;
+
 import com.microsoft.sqlserver.jdbc.*;
 
 /**
@@ -21,7 +21,7 @@ import com.microsoft.sqlserver.jdbc.*;
  */
 public class AirplaneNoiseWeb extends HttpServlet {
 
-    private static String jdbcConnectionString = "jdbc:sqlserver://airplanenoise.database.windows.net:1433;database=airplanenoise;user=jgoldberg@airplanenoise;password=ivirFlept!6fF^l@WZd;encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;loginTimeout=30;";
+    private static String jdbcConnectionString = "jdbc:sqlserver://airplanenoise.database.windows.net:1433;database=airplanenoise;user=jgoldberg@airplanenoise;password=ivirFlept!6fF^l@WZd;encrypt=true;trustServerCertificate=true;hostNameInCertificate=*.database.windows.net;loginTimeout=30;";
 
     private static AirplaneManager manager;
 
@@ -94,12 +94,19 @@ public class AirplaneNoiseWeb extends HttpServlet {
 
             statement = connection.prepareStatement(sqlString);
 
-            statement.setString(1,request.getParameter("hexIdent"));
+            statement.setString(1, request.getParameter("hexIdent"));
             statement.setInt(2, Integer.parseInt(request.getParameter("altitude")));
             statement.setInt(3, Integer.parseInt(request.getParameter("groundspeed")));
-            statement.setInt(4, Integer.parseInt(request.getParameter("heading")));
+            statement.setInt(4, Double.valueOf(request.getParameter("heading")).intValue());
             statement.setDouble(5, Double.parseDouble(request.getParameter("lat")));
-            statement.setDouble(6,Double.parseDouble(request.getParameter("lon")));
+            statement.setDouble(6, Double.parseDouble(request.getParameter("lon")));
+
+            System.out.println("try to log");
+            Enumeration<String> paramNames = request.getParameterNames();
+            while (paramNames.hasMoreElements()) {
+                String s = paramNames.nextElement();
+                System.out.println(s+": "+request.getParameter(s));
+            }
 
             // Execute the statement.
             statement.executeUpdate();
