@@ -70,6 +70,22 @@
                 <version>2.5</version>
                 <executions>
                     <execution>
+                        <id>create-log-dir</id>
+                        <phase>validate</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${basedir}/target/logs/</outputDirectory>
+                            <resources>
+                                <resource>
+                                    <directory>src/main/resources/logs/</directory>
+                                    <filtering>false</filtering>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
+                    <execution>
                         <id>copy-webapp</id>
                         <phase>validate</phase>
                         <goals>

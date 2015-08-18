@@ -3,6 +3,9 @@ package com.threeio.airplanenoise.server;
 import org.eclipse.jetty.http.HttpVersion;
 import org.eclipse.jetty.server.*;
 import org.eclipse.jetty.server.handler.ContextHandlerCollection;
+import org.eclipse.jetty.server.handler.DefaultHandler;
+import org.eclipse.jetty.server.handler.HandlerCollection;
+import org.eclipse.jetty.server.handler.RequestLogHandler;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.util.resource.Resource;
 import org.eclipse.jetty.util.ssl.SslContextFactory;
@@ -50,6 +53,8 @@ public class AirplaneNoiseWebServer {
         server.addConnector(sslConnector);
         */
 
+
+
         // handler configuration
 
         ServletContextHandler scHandler = new ServletContextHandler();
@@ -63,8 +68,21 @@ public class AirplaneNoiseWebServer {
         loginContextHandler.setAllowNullPathInfo(true);
 
         ContextHandlerCollection contexts = new ContextHandlerCollection();
-        contexts.setHandlers(new Handler[]{scHandler,loginContextHandler});
-        server.setHandler(contexts);
+        RequestLogHandler requestLogHandler = new RequestLogHandler();
+
+        contexts.setHandlers(new Handler[]{scHandler, loginContextHandler});
+        HandlerCollection handlers = new HandlerCollection();
+        handlers.setHandlers(new Handler[]{contexts,requestLogHandler});
+        server.setHandler(handlers);
+
+        NCSARequestLog requestLog = new NCSARequestLog("./logs/api-yyyy_mm_dd.request.log");
+        requestLog.setRetainDays(90);
+        requestLog.setAppend(true);
+        requestLog.setExtended(false);
+        requestLog.setLogTimeZone("GMT");
+        requestLog.setFilenameDateFormat("yyyy_MM_dd");
+        requestLogHandler.setRequestLog(requestLog);
+
 
     }
 

@@ -1,12 +1,13 @@
 package com.threeio.airplanenoise.server;
 
 import org.eclipse.jetty.server.Handler;
+import org.eclipse.jetty.server.NCSARequestLog;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.handler.ContextHandlerCollection;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.util.resource.Resource;
 import org.eclipse.jetty.webapp.WebAppContext;
-
+import org.eclipse.jetty.server.handler.*;
 
 /**
  * Created by jgoldberg on 7/25/15.
@@ -46,6 +47,7 @@ public class AirplaneNoiseWebHtmlServer {
         server.addConnector(sslConnector);
         */
 
+
         // handler configuration
 
         WebAppContext webAppContext = new WebAppContext();
@@ -57,8 +59,20 @@ public class AirplaneNoiseWebHtmlServer {
 
 
         ContextHandlerCollection contexts = new ContextHandlerCollection();
+        RequestLogHandler requestLogHandler = new RequestLogHandler();
+
         contexts.setHandlers(new Handler[]{webAppContext});
-        server.setHandler(contexts);
+        HandlerCollection handlers = new HandlerCollection();
+        handlers.setHandlers(new Handler[]{contexts,requestLogHandler});
+        server.setHandler(handlers);
+
+        NCSARequestLog requestLog = new NCSARequestLog("./logs/html-yyyy_mm_dd.request.log");
+        requestLog.setRetainDays(90);
+        requestLog.setAppend(true);
+        requestLog.setExtended(false);
+        requestLog.setLogTimeZone("GMT");
+        requestLog.setFilenameDateFormat("yyyy_MM_dd");
+        requestLogHandler.setRequestLog(requestLog);
 
     }
 
