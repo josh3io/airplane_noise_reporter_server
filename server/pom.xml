@@ -70,6 +70,22 @@
                 <version>2.5</version>
                 <executions>
                     <execution>
+                        <id>copy-other-libs</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${basedir}/target/com.threeio.airplanenoise.server/WEB-INF/lib/</outputDirectory>
+                            <resources>
+                                <resource>
+                                    <directory>lib/</directory>
+                                    <filtering>false</filtering>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
+                    <execution>
                         <id>create-log-dir</id>
                         <phase>validate</phase>
                         <goals>

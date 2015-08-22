@@ -87,8 +87,8 @@ public class AirplaneNoiseWeb extends HttpServlet {
             connection = DriverManager.getConnection(jdbcConnectionString);
 
             // Define the SQL string.
-            String sqlString = "INSERT INTO report_log (hexid,altitude,groundspeed,heading,lat,lon,report_dt) " +
-                    "VALUES (?,?,?,?,?,?,CURRENT_TIMESTAMP)";
+            String sqlString = "INSERT INTO report_log (hexid,altitude,groundspeed,heading,lat,lon,report_dt,flight) " +
+                    "VALUES (?,?,?,?,?,?,CURRENT_TIMESTAMP,?)";
 
             // Use the connection to create the SQL statement.
 
@@ -100,6 +100,11 @@ public class AirplaneNoiseWeb extends HttpServlet {
             statement.setInt(4, Double.valueOf(request.getParameter("heading")).intValue());
             statement.setDouble(5, Double.parseDouble(request.getParameter("lat")));
             statement.setDouble(6, Double.parseDouble(request.getParameter("lon")));
+            if (request.getParameter("flight") != null) {
+                statement.setString(7, request.getParameter("flight"));
+            } else {
+                statement.setString(7,"");
+            }
 
             System.out.println("try to log");
             Enumeration<String> paramNames = request.getParameterNames();
@@ -163,7 +168,7 @@ public class AirplaneNoiseWeb extends HttpServlet {
         while (iterator.hasNext()) {
             Airplane p = iterator.next();
             //System.out.println("airplane "+p.getHexIdent());
-            if (p.getLat() != 0 && p.getLon() != 0) {
+            if (p.getLat() != 0 && p.getLon() != 0 && p.getSeen() < 60) {
                 list.add(p);
             }
         }
